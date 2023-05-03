@@ -6,16 +6,16 @@ def main():
 
     ## Encrypt plaintext
     # Convert to DNA
-    test = DNA("Hello World!")
+    inputText = "Hello World!"
+    test = DNA(inputText)
     # Create DNAMM
     # Use DNAMM to further encrypt DNA
 
     ## Decrypt ciphertext
     # Convert to ASCII
 
-    
-    print(test)
-    print(test.exor(test))
+    print("Text to be encrypted: {}\n".format(inputText))
+    print("Text as DNA: {}\n".format(test))
 
     return None # End main()
 

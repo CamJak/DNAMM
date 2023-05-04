@@ -1,5 +1,5 @@
 # DNAMM Main file
-from classes import *
+from dna import *
 
 def main():
     ## Generate key

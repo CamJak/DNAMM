@@ -87,16 +87,6 @@ class MooreMachine:
                                 break
                             randNum = random.randint(0, 3)
                             regenerate = False
-                            # if len(usedNums) == 1:
-                            #     if usedNums[0] not in input_T:
-                            #         regenerate = True
-                            #         break
-                            #     else:
-                            #         randNum = usedNums[0]
-                            #         regenerate = False
-                            # else:
-                            #     randNum = random.randint(0, 3)
-                            #     regenerate = False
                         if randNum in usedNums and randNum in input_T:
                             input_T.remove(randNum)
                             usedNums.remove(randNum)

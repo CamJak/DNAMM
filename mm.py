@@ -116,6 +116,59 @@ class MooreMachine:
                 output += currentState.output
 
         return output
+    
+    def getReverseOutput(self, input):
+
+        # Start with an empty output and the first state
+        output = ""
+        previousState = self.states[0]
+
+        # For each DNA in the input, get the next state and add the output
+        for DNA in input:
+            # Check if the input is valid
+            if DNA not in ["A", "T", "C", "G"]:
+                return "Invalid input"
+            
+            # Otherwise, get the next state and add the output
+            currentOutput = DNA
+            if DNA == "A":
+                currentState = self.states[0]
+            elif DNA == "T":
+                currentState = self.states[1]
+            elif DNA == "C":
+                currentState = self.states[2]
+            elif DNA == "G":
+                currentState = self.states[3]
+
+            for key, value in previousState.transitions.items():
+                if value == currentState.name:
+                    output += key
+                    break
+            
+            previousState = currentState
+                    
+        return output
+    
+    def getCols(self):
+        col1 = ""
+        col2 = ""
+        col3 = ""
+        col4 = ""
+        for state in self.states:
+            col1 += str(state.transitions["G"])
+            col2 += str(state.transitions["A"])
+            col3 += str(state.transitions["C"])
+            col4 += str(state.transitions["T"])
+
+        return [col1, col2, col3, col4]
+    
+    def encodeCols(self, cols):
+        encodedCols = ""
+        for i in range(len(cols)):
+            for integer in cols[i]:
+                encodedCols += format(int(integer), '02b')
+
+        return encodedCols
 
 def main():
     
@@ -133,5 +186,18 @@ def main():
     output = mm.getOutput(input)
     print(f"Input: {input}, Output: {output}")
 
+    cols = mm.getCols()
+    print(f"Cols: {cols}")
+    print()
+    encodedCols = mm.encodeCols(cols)
+    print(encodedCols)
+
+    output1 = mm.getReverseOutput(output)
+    print(f"Input: {input}, Output: {output1}")
+    print(input == output1)
+
 if __name__ == "__main__":
     main()
+
+
+

@@ -1,12 +1,18 @@
-import random
+from time import time
 from helperFunctions import *
 
 class DNA:
-    def __init__(self, ASCII):
-        self.__dna = self.ascii_to_dna(ASCII)
+    def __init__(self, ASCII=" "):
+        self.__dna, self.__firstRule = self.ascii_to_dna(ASCII)
 
     def __str__(self):
         return self.__dna
+    
+    def getDna(self):
+        return self.__dna
+    
+    def getFirstRule(self):
+        return self.__firstRule
 
     # BIN to DNA
     def bin_to_dna(self, bin, rule):
@@ -35,23 +41,36 @@ class DNA:
     # Encrypt ASCII to DNA
     def ascii_to_dna(self, ASCII):
         out = ""
-        char1 = asciiToBin(ASCII[0])
-        rule = binToDec(char1)%8
+        # char1 = asciiToBin(ASCII[0])
+        # rule = binToDec(char1)%8
+        rule = int(time())%8
+        firstRule = rule
         for char in ASCII:
             bin = asciiToBin(char)
             out += self.bin_to_dna(bin, rule)
             rule = (rule+1)%8
-        return out
+        return out, firstRule
 
     # DNA to BIN
-    def dna_to_bin(self, dna):
-        rule = {"A": "00", "C": "10", "T": "01", "G": "11"}
+    def dna_to_bin(self, dna, rule):
+        rules = [
+            {"A": "01", "C": "11", "T": "00", "G": "10"},
+            {"A": "00", "C": "10", "T": "01", "G": "11"},
+            {"A": "00", "C": "01", "T": "10", "G": "11"},
+            {"A": "01", "C": "00", "T": "11", "G": "10"},
+            {"A": "10", "C": "11", "T": "00", "G": "01"},
+            {"A": "11", "C": "01", "T": "10", "G": "00"},
+            {"A": "11", "C": "10", "T": "01", "G": "00"},
+            {"A": "10", "C": "00", "T": "11", "G": "01"}
+        ]
 
         # Convert DNA to bin
         out = ""
-        for char in dna:
-            out += rule[char]
-        out = int(out, 2)
+        dna_list = [ dna[i:i+4] for i in range(0, len(dna), 4) ]
+        for item in dna_list:
+            for char in item:
+                out += rules[rule][char]
+            rule = (rule+1)%8
         return out
 
     # DNA EXOR

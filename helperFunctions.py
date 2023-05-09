@@ -10,3 +10,10 @@ def asciiToBin(ascii):
 def binToDec(bin):
     # Convert binary string to decimal
     return int(bin, 2)
+
+def binToAscii(bin):
+    # Convert binary string to ASCII
+    ascii = ""
+    for i in range(0, len(bin), 8):
+        ascii += chr(binToDec(bin[i:i+8]))
+    return ascii

@@ -3,6 +3,11 @@ class MooreMachine:
     def __init__(self) -> None:
         self.states = []
 
+    def __str__(self) -> str:
+        string = ""
+        for state in self.states:
+            string += (f"State: {state.name}, Output: {state.output}, Transitions: {state.transitions}\n")
+        return string
     class state:
         def __init__(self, name, output, transitions = {}) -> None:
             self.name = name
@@ -96,7 +101,14 @@ class MooreMachine:
                         break
                     if not regenerate:
                         self.states[i].transitions.update({inputs[j]: randNum})
-                
+
+    def generateFromCols(self, cols):
+        output = ["A", "T", "C", "G"]
+        inputs = ["G", "A", "C", "T"]
+        self.states = []
+        for i in range(4):
+            self.states.append(self.state(i, output[i], {inputs[0]: int(cols[0][i]), inputs[1]: int(cols[1][i]), inputs[2]: int(cols[2][i]), inputs[3]: int(cols[3][i])}))
+
     def getOutput(self, input):
         
         # Start with an empty output and the first state
@@ -130,7 +142,6 @@ class MooreMachine:
                 return "Invalid input"
             
             # Otherwise, get the next state and add the output
-            currentOutput = DNA
             if DNA == "A":
                 currentState = self.states[0]
             elif DNA == "T":
@@ -162,6 +173,20 @@ class MooreMachine:
 
         return [col1, col2, col3, col4]
     
+    def decodeCols(self, binCols):
+        cols = ["" for i in range(4)]
+        bin_col_list = [ binCols[i:i+2] for i in range(0, len(binCols), 2) ]
+        i = 0
+        for j in range(0, len(bin_col_list), 4):
+            cols[i] += str(int(bin_col_list[j], 2))
+            cols[i] += str(int(bin_col_list[j+1], 2))
+            cols[i] += str(int(bin_col_list[j+2], 2))
+            cols[i] += str(int(bin_col_list[j+3], 2))
+            
+            i += 1
+
+        return cols
+    
     def encodeCols(self, cols):
         encodedCols = ""
         for i in range(len(cols)):
@@ -189,8 +214,14 @@ def main():
     cols = mm.getCols()
     print(f"Cols: {cols}")
     print()
+
+    mm1 = MooreMachine().generateFromCols(cols)
+    print()
     encodedCols = mm.encodeCols(cols)
     print(encodedCols)
+
+    decodedCols = mm.decodeCols(encodedCols)
+    print(f"Decoded Cols: {decodedCols}")
 
     output1 = mm.getReverseOutput(output)
     print(f"Input: {input}, Output: {output1}")

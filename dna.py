@@ -3,7 +3,8 @@ from helperFunctions import *
 
 class DNA:
     def __init__(self, ASCII=" "):
-        self.__dna, self.__firstRule = self.ascii_to_dna(ASCII)
+        if ASCII != " ":
+            self.__dna, self.__firstRule = self.ascii_to_dna(ASCII)
 
     def __str__(self):
         return self.__dna
@@ -33,9 +34,13 @@ class DNA:
 
         # Convert bin to DNA
         out = ""
-        for i in range(0, len(bin), 2):
-            out += rules[rule][bin[i:i+2]]
-
+        bin_list = [ bin[i:i+8] for i in range(0, len(bin), 8) ]
+        for i in range(len(bin_list)):
+            for j in range(0, len(bin_list[i]), 2):
+                out += rules[rule][bin_list[i][j:j+2]]
+            
+            rule = (rule+1)%8
+                
         return out
 
     # Encrypt ASCII to DNA

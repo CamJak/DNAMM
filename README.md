@@ -38,7 +38,7 @@ python3 main.py -d -i input.dna -k key.key -o output.txt
 ## Authors
 * **[Cameron Thomas](https://github.com/CamJak)**
 * **[Blake Perrin](https://github.com/BlakePerrin13)**
-* **[William Wilson]**
+* **[William Wilson](https://github.com/WillWillson)**
 
 ## Credits
 The inspiration for this project came from [this paper](https://www.sciencedirect.com/science/article/abs/pii/S0140366422000457).
